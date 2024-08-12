@@ -6,16 +6,19 @@ import React, { useState, useCallback, useEffect } from 'react';
 import WidgetPreview from './WidgetPreview';
 import WidgetCode from './WidgetCode';
 import CustomizationOptions from './CustomizationOptions';
+import { YouTubeShortsWidgetState } from '@/types';
 
 const YouTubeShortsWidget: React.FC = () => {
-  const [youtubeUrl, setYoutubeUrl] = useState('');
-  const [videoId, setVideoId] = useState('');
-  const [widgetSize, setWidgetSize] = useState(360);
-  const [borderColor, setBorderColor] = useState('#000000');
-  const [borderRadius, setBorderRadius] = useState(12);
-  const [addShadow, setAddShadow] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [state, setState] = useState<YouTubeShortsWidgetState>({
+    youtubeUrl: '',
+    videoId: '',
+    widgetSize: 360,
+    borderColor: '#000000',
+    borderRadius: 12,
+    addShadow: false,
+    errorMessage: '',
+    isDarkMode: false,
+  });
 
   const extractYoutubeShortsId = useCallback((url: string) => {
     const regExp = /^.*(youtu.be\/|youtube.com\/shorts\/)([^#\&\?]*).*/;
@@ -24,38 +27,62 @@ const YouTubeShortsWidget: React.FC = () => {
   }, []);
 
   const handleCreateWidget = useCallback(() => {
-    setErrorMessage('');
-    if (youtubeUrl) {
-      const extractedVideoId = extractYoutubeShortsId(youtubeUrl);
+    setState(prevState => ({
+      ...prevState,
+      errorMessage: '',
+    }));
+    if (state.youtubeUrl) {
+      const extractedVideoId = extractYoutubeShortsId(state.youtubeUrl);
       if (extractedVideoId) {
-        setVideoId(extractedVideoId);
+        setState(prevState => ({
+          ...prevState,
+          videoId: extractedVideoId,
+        }));
       } else {
-        setErrorMessage('Invalid YouTube Shorts URL');
-        setVideoId('');
+        setState(prevState => ({
+          ...prevState,
+          errorMessage: 'Invalid YouTube Shorts URL',
+          videoId: '',
+        }));
       }
     } else {
-      setErrorMessage('Please enter a YouTube Shorts URL');
-      setVideoId('');
+      setState(prevState => ({
+        ...prevState,
+        errorMessage: 'Please enter a YouTube Shorts URL',
+        videoId: '',
+      }));
     }
-  }, [youtubeUrl, extractYoutubeShortsId]);
+  }, [state.youtubeUrl, extractYoutubeShortsId]);
 
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+    setState(prevState => ({
+      ...prevState,
+      isDarkMode: !prevState.isDarkMode,
+    }));
     document.documentElement.classList.toggle('dark');
   };
 
   useEffect(() => {
-    if (youtubeUrl.trim() === '') {
-      setErrorMessage('');
-    } else if (!extractYoutubeShortsId(youtubeUrl.trim())) {
-      setErrorMessage('Invalid YouTube Shorts URL');
+    if (state.youtubeUrl.trim() === '') {
+      setState(prevState => ({
+        ...prevState,
+        errorMessage: '',
+      }));
+    } else if (!extractYoutubeShortsId(state.youtubeUrl.trim())) {
+      setState(prevState => ({
+        ...prevState,
+        errorMessage: 'Invalid YouTube Shorts URL',
+      }));
     } else {
-      setErrorMessage('');
+      setState(prevState => ({
+        ...prevState,
+        errorMessage: '',
+      }));
     }
-  }, [youtubeUrl, extractYoutubeShortsId]);
+  }, [state.youtubeUrl, extractYoutubeShortsId]);
 
   return (
-    <div className={`creator-section ${isDarkMode ? 'dark' : ''}`}>
+    <div className={`creator-section ${state.isDarkMode ? 'dark' : ''}`}>
       <div className="flex flex-col md:flex-row">
         {/* Left Column - Input and Customization Options in a Card */}
         <div className="w-full md:w-1/2 p-4">
@@ -66,8 +93,8 @@ const YouTubeShortsWidget: React.FC = () => {
                 id="youtube-url"
                 placeholder="Enter YouTube Shorts URL"
                 aria-label="YouTube Shorts URL"
-                value={youtubeUrl}
-                onChange={(e) => setYoutubeUrl(e.target.value)}
+                value={state.youtubeUrl}
+                onChange={(e) => setState(prevState => ({ ...prevState, youtubeUrl: e.target.value }))}
                 className="p-2 border rounded w-full"
               />
               <button
@@ -77,20 +104,20 @@ const YouTubeShortsWidget: React.FC = () => {
                 Create Widget
               </button>
             </div>
-            {errorMessage && (
+            {state.errorMessage && (
               <div className="error-message text-red-500 mb-4" aria-live="polite">
-                {errorMessage}
+                {state.errorMessage}
               </div>
             )}
             <CustomizationOptions
-              widgetSize={widgetSize}
-              setWidgetSize={setWidgetSize}
-              borderColor={borderColor}
-              setBorderColor={setBorderColor}
-              borderRadius={borderRadius}
-              setBorderRadius={setBorderRadius}
-              addShadow={addShadow}
-              setAddShadow={setAddShadow}
+              widgetSize={state.widgetSize}
+              setWidgetSize={(size) => setState(prevState => ({ ...prevState, widgetSize: size }))}
+              borderColor={state.borderColor}
+              setBorderColor={(color) => setState(prevState => ({ ...prevState, borderColor: color }))}
+              borderRadius={state.borderRadius}
+              setBorderRadius={(radius) => setState(prevState => ({ ...prevState, borderRadius: radius }))}
+              addShadow={state.addShadow}
+              setAddShadow={(shadow) => setState(prevState => ({ ...prevState, addShadow: shadow }))}
             />
           </div>
         </div>
@@ -99,11 +126,11 @@ const YouTubeShortsWidget: React.FC = () => {
         <div className="w-full md:w-1/2 p-4">
           <div className="card p-4 border-2 rounded-lg">
             <WidgetPreview
-              videoId={videoId}
-              widgetSize={widgetSize}
-              borderColor={borderColor}
-              borderRadius={borderRadius}
-              addShadow={addShadow}
+              videoId={state.videoId}
+              widgetSize={state.widgetSize}
+              borderColor={state.borderColor}
+              borderRadius={state.borderRadius}
+              addShadow={state.addShadow}
             />
           </div>
         </div>
@@ -113,12 +140,12 @@ const YouTubeShortsWidget: React.FC = () => {
       <div className="w-full p-4 mt-8 flex justify-center">
         <div className="max-w-3xl w-full">
           <WidgetCode
-            videoId={videoId}
-            widgetSize={widgetSize}
-            borderColor={borderColor}
-            borderRadius={borderRadius}
-            addShadow={addShadow}
-            isDarkMode={isDarkMode}
+            videoId={state.videoId}
+            widgetSize={state.widgetSize}
+            borderColor={state.borderColor}
+            borderRadius={state.borderRadius}
+            addShadow={state.addShadow}
+            isDarkMode={state.isDarkMode}
           />
         </div>
       </div>

@@ -1,15 +1,5 @@
-// WidgetCode.tsx
-
 import React, { useEffect, useState } from 'react';
-
-interface WidgetCodeProps {
-  videoId: string;
-  widgetSize: number;
-  borderColor: string;
-  borderRadius: number;
-  addShadow: boolean;
-  isDarkMode: boolean; // Add the isDarkMode property
-}
+import { WidgetCodeProps } from '@/types';
 
 const WidgetCode: React.FC<WidgetCodeProps> = ({
   videoId,
@@ -17,7 +7,7 @@ const WidgetCode: React.FC<WidgetCodeProps> = ({
   borderColor,
   borderRadius,
   addShadow,
-  isDarkMode, // Use the isDarkMode property
+  isDarkMode,
 }) => {
   const [widgetCode, setWidgetCode] = useState('');
 

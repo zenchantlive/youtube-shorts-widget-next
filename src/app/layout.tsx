@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { UserProvider } from '@auth0/nextjs-auth0/client';
+import { RootLayoutProps } from '@/types';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,14 +12,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: RootLayoutProps) {
   return (
     <html lang="en">
-      <UserProvider>
-        <body className={inter.className}>{children}</body>
-      </UserProvider>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }

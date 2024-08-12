@@ -1,17 +1,5 @@
-// CustomizationOptions.tsx
-
 import React from 'react';
-
-interface CustomizationOptionsProps {
-  widgetSize: number;
-  setWidgetSize: (size: number) => void;
-  borderColor: string;
-  setBorderColor: (color: string) => void;
-  borderRadius: number;
-  setBorderRadius: (radius: number) => void;
-  addShadow: boolean;
-  setAddShadow: (shadow: boolean) => void;
-}
+import { CustomizationOptionsProps } from '@/types';
 
 const CustomizationOptions: React.FC<CustomizationOptionsProps> = ({
   widgetSize,

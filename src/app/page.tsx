@@ -1,5 +1,4 @@
 import YouTubeShortsWidget from '@/components/YouTubeShortsWidget';
-import ProfileManagement from '@/components/ProfileManagement';
 import Header from '@/components/Header';
 
 export default function Home() {
@@ -7,7 +6,6 @@ export default function Home() {
     <main className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4 text-center">YouTube Shorts Widget Creator</h1>
       <Header />
-      <ProfileManagement />
       <YouTubeShortsWidget />
       <div className="mt-8 text-center">
         <a

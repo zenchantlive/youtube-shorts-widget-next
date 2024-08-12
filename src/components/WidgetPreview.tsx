@@ -1,12 +1,5 @@
 import React from 'react';
-
-interface WidgetPreviewProps {
-  videoId: string;
-  widgetSize: number;
-  borderColor: string;
-  borderRadius: number;
-  addShadow: boolean;
-}
+import { WidgetPreviewProps } from '@/types';
 
 const WidgetPreview: React.FC<WidgetPreviewProps> = ({
   videoId,
