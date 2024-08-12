@@ -1,5 +1,6 @@
 import { getSession } from '@auth0/nextjs-auth0';
 import YouTubeShortsWidget from '@/components/YouTubeShortsWidget';
+import ProfileManagement from '@/components/ProfileManagement';
 import Link from 'next/link';
 
 export default async function Home() {
@@ -18,7 +19,18 @@ export default async function Home() {
           <Link href="/api/auth/login" className="text-blue-500 hover:text-blue-700">Login</Link>
         )}
       </div>
+      {user && <ProfileManagement />}
       <YouTubeShortsWidget />
+      <div className="mt-8 text-center">
+        <a
+          href="https://buymeacoffee.com/zenchant"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded"
+        >
+          Buy Me a Coffee
+        </a>
+      </div>
     </main>
   );
 }
