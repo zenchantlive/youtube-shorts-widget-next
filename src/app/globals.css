@@ -1,0 +1,67 @@
+/* Global Tailwind CSS imports */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Define CSS variables for colors */
+:root {
+  --primary-color: 0, 119, 182; /* Soft, cool-toned blue */
+  --secondary-color: 247, 247, 247; /* Light gray */
+  --accent-color: 255, 107, 107; /* Vibrant coral */
+  --neutral-dark: 51, 51, 51; /* Darker gray for text */
+  --neutral-light: 26, 26, 26; /* Soft black for borders */
+  --card-light-bg: 255, 255, 255; /* Light mode card background */
+  --card-dark-bg: 34, 34, 34; /* Dark mode card background */
+  --card-light-border: 200, 200, 200; /* Light mode border color */
+  --card-dark-border: 85, 85, 85; /* Dark mode border color */
+  --foreground-rgb: var(--neutral-dark); /* Default text color */
+  --background-start-rgb: var(--secondary-color); /* Background gradient start */
+  --background-end-rgb: 255, 255, 255; /* Background gradient end */
+}
+
+/* Dark mode styling */
+.dark {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+/* Body styling with gradient background and text color */
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+/* Additional utility classes for balanced text */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Card styles for light and dark mode */
+.card {
+  background-color: rgb(var(--card-light-bg)); /* Light mode card background */
+  border-color: rgb(var(--card-light-border)); /* Light mode border color */
+}
+
+.dark .card {
+  background-color: rgb(var(--card-dark-bg)); /* Dark mode card background */
+  border-color: rgb(var(--card-dark-border)); /* Dark mode border color */
+}
+
+/* Widget code specific styles */
+.widget-code {
+  background-color: rgb(var(--card-light-bg)); /* Light mode widget code background */
+  border-color: rgb(var(--card-light-border)); /* Light mode widget code border */
+}
+
+.dark .widget-code {
+  background-color: rgb(var(--card-dark-bg)); /* Dark mode widget code background */
+  border-color: rgb(var(--card-dark-border)); /* Dark mode widget code border */
+}
